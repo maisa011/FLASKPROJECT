@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Psp Converter</h1>
+    </div>
+
+    <div class="layout">
+        <!-- მარცხენა sidebar -->
+        <div class="sidebar">
+            <a href="/user/მიხეილ"><button>მომხმარებელი</button></a>
+            <a href="/weather"><button>ამინდის პროგნოზი</button></a>
+            <a href="/interactive"><button>გრაფიკი</button></a>
+        </div>
+
+        <!-- მარჯვენა შიგთავსი -->
+        <div class="main-content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+</body>
+</html>
