@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}კომენტარები{% endblock %}
+{% block page_class %}no-background{% endblock %}
+
+{% block content %}
+<h3>🌐 კომენტარები</h3>
+{% if comments %}
+    {% for timestamp, name, comment in comments %}
+        <div style="text-align: left; background-color: #f9f9f9; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
+            <strong>{{ name }}</strong> <em style="color: #888;">({{ timestamp }})</em>
+            <p>{{ comment }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>ჯერ კომენტარი არ არის.</p>
+{% endif %}
+
+<hr style="margin: 40px 0;">
+
+<h2 style="text-align: center; margin-top: 80px;">მოთხოვნა... ✍️</h2>
+
+<div style="text-align: left;">
+    <form action="{{ url_for('submit_note') }}" method="POST" style="max-width: 900px;">
+        <label>
+            <input type="text" name="name" placeholder="სახელი და გვარი" required
+                   style="width: 300px; padding: 10px; margin-bottom: 15px;">
+        </label><br>
+
+        <label>
+            <textarea name="comment" rows="5" cols="140"
+                      placeholder="დაწერე კომენტარი..." required
+                      style="padding: 10px; margin-bottom: 20px;"></textarea>
+        </label><br>
+
+        <button type="submit" style="padding: 10px 20px;">გაგზავნა</button>
+    </form>
+</div>
+{% endblock %}

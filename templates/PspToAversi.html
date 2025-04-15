@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Psp To Aversi{% endblock %}
+
+{% block content %}
+
+<style>
+
+
+    .upload-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 40px;
+        padding: 30px;
+    }
+
+    .upload-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        text-align: center;
+        width: 300px;
+        margin:100px
+        border: 1px solid black;
+    }
+
+    .custom-file-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    input[type="file"] {
+        margin-bottom: 10px;
+    }
+
+    .refresh-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+
+    .file-name {
+        display: block;
+        margin-top: 5px;
+        font-size: 14px;
+        color: #555;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // PSP input
+        const pspInput = document.getElementById("excel-file-psp");
+        const pspFileName = document.getElementById("file-name-psp");
+
+        pspInput.addEventListener("change", function () {
+            const file = pspInput.files[0];
+            pspFileName.textContent = file ? file.name : "ფაილი არ არის არჩეული";
+        });
+
+        // Aversi input
+        const aversiInput = document.getElementById("excel-file-aversi");
+        const aversiFileName = document.getElementById("file-name-aversi");
+
+        aversiInput.addEventListener("change", function () {
+            const file = aversiInput.files[0];
+            aversiFileName.textContent = file ? file.name : "ფაილი არ არის არჩეული";
+        });
+
+        // Show success after submission
+        const forms = document.querySelectorAll(".upload-form");
+        forms.forEach(form => {
+            form.addEventListener("submit", function () {
+                setTimeout(() => {
+                    alert("✅ ფაილი წარმატებით გადმოიწერა!");
+                }, 3000);
+            });
+        });
+    });
+</script>
+
+<div class="upload-wrapper">
+    <!-- PSP -->
+    <div class="upload-container">
+        <h2>ატვირთე პსპ-ს ფაილი (მომარაგება)</h2>
+        <form action="/convert_psp" method="post" enctype="multipart/form-data" class="upload-form">
+            <label for="excel-file-psp" class="custom-file-label">აირჩიე Excel ფაილი</label>
+            <input type="file" id="excel-file-psp" name="excel_file" accept=".xlsx,.xls" required>
+            <span id="file-name-psp" class="file-name">ფაილი არ არის არჩეული</span>
+
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 10px;">
+                <span class="refresh-icon">🔁</span>
+                <button type="submit">ჩამოტვირთე</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Aversi -->
+    <div class="upload-container">
+        <h2>ატვირთე ავერსის ფაილი (საბითუმო)</h2>
+        <form action="/convert_aversi" method="post" enctype="multipart/form-data" class="upload-form">
+            <label for="excel-file-aversi" class="custom-file-label">აირჩიე Excel ფაილი</label>
+            <input type="file" id="excel-file-aversi" name="excel_file" accept=".xlsx,.xls" required>
+            <span id="file-name-aversi" class="file-name">ფაილი არ არის არჩეული</span>
+
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 10px;">
+                <span class="refresh-icon">🔁</span>
+                <button type="submit">ჩამოტვირთე</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if error %}
+    <div style="margin: 20px auto; max-width: 600px; padding: 15px; border: 1px solid #e74c3c; background-color: #fdecea; color: #c0392b; border-radius: 8px; font-weight: bold;">
+        {{ error }}
+    </div>
+{% endif %}
+
+{% endblock %}
