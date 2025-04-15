@@ -1,11 +1,164 @@
 {% extends "base.html" %}
 
-{% block title %}ამინდის პროგნოზი{% endblock %}
+{% block title %}Aversi Bonus{% endblock %}
 
 {% block content %}
-    <h2>ამინდის პროგნოზი</h2>
-    <p>ქალაქი: თბილისი</p>
-    <p>ტემპერატურა: 22°C</p>
-    <p>მდგომარეობა: მზიანი</p>
-{% endblock %}
+<div class="container">
+    <h2 class="title">Aversi Pharma Bonus</h2>
 
+    <form action="/weather" method="post" enctype="multipart/form-data" class="upload-form">
+        {% set fields = {
+            'medicine': 'მედიცინის ფაილი',
+            'erp': 'ERP ფაილი',
+            'aramedi': 'არა-მედი ფაილი',
+            'salary_tbilisi': 'ხელფასები - თბილისი',
+            'salary_regioni': 'ხელფასები - რეგიონი'
+        } %}
+
+        {% for name, label in fields.items() %}
+            <label class="custom-file">
+                <span class="label-text">{{ label }}:</span>
+                <input type="file" name="{{ name }}" onchange="handleFileChange(this, 'file-name-{{ name }}')">
+                <span id="file-name-{{ name }}" class="file-name">ფაილი არ არის არჩეული</span>
+            </label>
+        {% endfor %}
+
+        <button type="submit" class="submit-btn">ფორმირება</button>
+    </form>
+
+    {% if message %}
+        <div class="alert-box">{{ message }}</div>
+    {% endif %}
+
+    {% if table %}
+
+
+        <div class="download-container">
+            <a href="{{ url_for('download_bonus') }}">
+                <button class="download-btn">📥 გადმოწერე Excel</button>
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+/* Main container */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #f9f9fb;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* Title */
+.title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #003366;
+}
+
+/* Form */
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* File input */
+.custom-file {
+    display: flex;
+    flex-direction: column;
+    background: #eef2f7;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.custom-file input[type="file"] {
+    display: none;
+}
+
+.label-text {
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Buttons */
+.submit-btn,
+.download-btn {
+    padding: 12px 25px;
+    background-color: #005b84;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0074a3;
+}
+
+.download-btn {
+    background-color: #28a745;
+}
+
+.download-btn:hover {
+    background-color: #218838;
+}
+
+/* Alert */
+.alert-box {
+    background-color: #ffe6e6;
+    color: #cc0000;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Table */
+.table-title {
+    text-align: center;
+    margin-top: 30px;
+    color: #444;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+.download-container {
+    text-align: center;
+    margin-top: 20px;
+}
+</style>
+
+<script>
+function handleFileChange(input, spanId) {
+    const file = input.files[0];
+    const span = document.getElementById(spanId);
+    const container = input.closest(".custom-file");
+
+    if (file) {
+        span.textContent = file.name;
+        container.classList.add("selected");
+    } else {
+        span.textContent = "ფაილი არ არის არჩეული";
+        container.classList.remove("selected");
+    }
+}
+</script>
+{% endblock %}

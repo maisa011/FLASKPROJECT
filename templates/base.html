@@ -9,22 +9,51 @@
 <body>
 
     <div class="header">
-        <h1>Psp Converter</h1>
+    <div class="logo-container">
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
+
+        <img src="{{ url_for('static', filename='img/aversi_logo.png') }}"
+             alt="ავერსის ლოგო" class="logo"
+             onclick="მთავარ_გვერდზე_გადასვლა()">
     </div>
 
+    <div class="header-text">
+        Aversi Pharma System
+    </div>
+
+    <script>
+        function მთავარ_გვერდზე_გადასვლა() {
+            window.location.href = "/";
+        }
+    </script>
+</div>
+
+
     <div class="layout">
+
         <!-- მარცხენა sidebar -->
-        <div class="sidebar">
-            <a href="/user/მიხეილ"><button>მომხმარებელი</button></a>
-            <a href="/weather"><button>ამინდის პროგნოზი</button></a>
-            <a href="/interactive"><button>გრაფიკი</button></a>
-        </div>
+     <div class="sidebar">
+
+    <a href="/psp"><button>Psp to Aversi</button></a>
+    <a href="/aversi"><button>Aversi to Psp</button></a>
+    <a href="/bonus"><button>Bonus App</button></a>
+    <a href="/interactive"><button>Price App</button></a>
+    <a href="/sales"><button>Non Drug Sales</button></a>
+
+    <a href="/notes" class="bottom-button">
+        <button class="back-button">Notes</button>
+    </a>
+</div>
+
 
         <!-- მარჯვენა შიგთავსი -->
-        <div class="main-content">
+        <div class="main-content {% block page_class %}{% endblock %}">
             {% block content %}{% endblock %}
         </div>
     </div>
+
+
 
 </body>
 </html>
